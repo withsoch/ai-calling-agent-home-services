@@ -1,0 +1,539 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   First Ring design tokens.
+
+   The palette, type scale and vertical rhythm are ported from withsoch-web so
+   the two sites read as siblings in taste. One deliberate addition: --color-
+   signal, promoted from Soch's rarely-used teal accent to a first-class role.
+   A calling product needs a colour that means "happening right now" - the live
+   dot, the waveform, the on-air chrome - and brand coral is already carrying
+   every CTA on the page. Retune the signal family here and the whole live-call
+   surface follows.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* Brand - red-orange, carried over from Soch unchanged */
+  --color-brand: #ff5c35;
+  --color-brand-light: #ff7a59;
+  --color-brand-dark: #e8431b;
+  --color-brand-deep: #c9350f;
+
+  /* Text - warm near-black */
+  --color-ink: #1c2b26;
+  --color-ink-soft: #33403b;
+  --color-slate: #4c534f;
+  --color-muted: #636a66;
+
+  /* Surfaces - warm */
+  --color-mist: #f6f2ea;
+  --color-cream: #fbf8f2;
+  --color-peach: #ffe8dd;
+  --color-line: #e7e2d7;
+
+  /* Dark sections */
+  --color-forest: #103129;
+  --color-charcoal: #171814;
+
+  /* Live/active signal. --color-signal is the teal Soch defines but barely
+     uses; -bright is the on-dark variant, because the base teal measures only
+     2.4:1 on forest and disappears inside the call panel. */
+  --color-signal: #1f7a8c;
+  --color-signal-bright: #4fc3d9;
+  --color-signal-deep: #145d6b;
+
+  /* Semantic accents */
+  --color-leaf: #1f8a66;
+  --color-amber: #b7791f;
+  --color-amber-soft: #fdf3d7;
+
+  --font-sans: var(--font-wix-madefor-text), system-ui, sans-serif;
+  --font-display: var(--font-wix-madefor-text), system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+
+  /* Type scale - the name is the size. `text-16` is 16px, always. */
+  --text-12: 12px;
+  --text-12--line-height: 1.5;
+  --text-13: 13px;
+  --text-13--line-height: 1.5;
+  --text-14: 14px;
+  --text-14--line-height: 1.5;
+  --text-16: 16px;
+  --text-16--line-height: 1.5;
+  --text-18: 18px;
+  --text-18--line-height: 1.45;
+  --text-20: 20px;
+  --text-20--line-height: 1.4;
+  --text-22: 22px;
+  --text-22--line-height: 1.35;
+  --text-24: 24px;
+  --text-24--line-height: 1.3;
+  --text-26: 26px;
+  --text-26--line-height: 1.25;
+  --text-32: 32px;
+  --text-32--line-height: 1.15;
+
+  /* Shadows - subtle; borders preferred over big shadows */
+  --shadow-soft: 0 1px 2px rgba(20, 30, 25, 0.04);
+  --shadow-card: 0 6px 22px -12px rgba(20, 30, 25, 0.18);
+  --shadow-lift: 0 22px 48px -22px rgba(20, 30, 25, 0.28);
+  --shadow-panel: 0 32px 64px -28px rgba(16, 49, 41, 0.42);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Vertical rhythm - one fluid scale for every band on the site. */
+  --space-section: clamp(3.75rem, 2.5rem + 3.6vw, 5.5rem);
+  --space-section-tight: clamp(2.75rem, 2rem + 2.4vw, 4rem);
+  --space-section-loose: clamp(5rem, 3.5rem + 4.6vw, 7.5rem);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: #ffffff;
+    color: var(--color-slate);
+    font-family: var(--font-sans);
+    font-size: var(--text-16);
+    font-weight: 400;
+    line-height: var(--text-16--line-height);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 500;
+    letter-spacing: -0.012em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  /* On the dark call panel and forest bands, a coral ring on near-black is
+     too low-contrast to find with the keyboard. */
+  .on-dark :focus-visible {
+    outline-color: var(--color-signal-bright);
+  }
+}
+
+@layer components {
+  .text-h1 {
+    font-size: clamp(2.6rem, 1.5rem + 3.9vw, 4.35rem);
+    line-height: 1.02;
+    letter-spacing: -0.018em;
+    font-weight: 500;
+  }
+  .text-h1-page {
+    font-size: clamp(2.4rem, 1.5rem + 3vw, 3.7rem);
+    line-height: 1.02;
+    letter-spacing: -0.018em;
+    font-weight: 500;
+  }
+  .text-h2 {
+    font-size: clamp(2.05rem, 1.4rem + 2.3vw, 3.1rem);
+    line-height: 1.06;
+    letter-spacing: -0.014em;
+    font-weight: 500;
+  }
+  .text-h3 {
+    font-size: clamp(1.6rem, 1.35rem + 1.1vw, 2.15rem);
+    line-height: 1.12;
+    letter-spacing: -0.013em;
+    font-weight: 500;
+  }
+  .text-h4 {
+    font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.6rem);
+    line-height: 1.16;
+    font-weight: 500;
+  }
+  .text-lead {
+    font-size: clamp(1.075rem, 1rem + 0.4vw, 1.25rem);
+    line-height: 1.62;
+    color: var(--color-slate);
+  }
+
+  /* Small uppercase label. Mono, because half the labels on this site are
+     telephony chrome (RING 1, 00:14, INBOUND) and they should read as
+     instrumentation rather than as prose. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: var(--text-12);
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: var(--text-14);
+    font-weight: 600;
+    color: var(--color-ink);
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    padding: 0.32rem 0.72rem;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 2px;
+    background: var(--color-brand);
+    transform: rotate(45deg);
+  }
+  .eyebrow-dark {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+  .eyebrow-dark::before {
+    background: var(--color-signal-bright);
+  }
+
+  /* Comparison table - horizontal dividers only, first column bold and
+     wider, stacks into per-tier cards below 768px. */
+  .cmp-table {
+    width: 100%;
+  }
+  .cmp-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .cmp-table th,
+  .cmp-table td {
+    border: none;
+    border-bottom: 1px solid var(--color-line);
+    text-align: left;
+  }
+  .cmp-table thead th {
+    font-weight: 600;
+    font-size: var(--text-18);
+    color: var(--color-ink);
+    padding: 1rem 1.25rem;
+    border-bottom-width: 2px;
+    vertical-align: bottom;
+  }
+  /* Top-aligned, not the browser default of middle: the "What's included"
+     row runs to seven lines in one column and two in another, and centring
+     leaves its row label floating in the middle of a tall cell with nothing
+     beside it. */
+  .cmp-table tbody th {
+    font-weight: 600;
+    font-size: var(--text-16);
+    color: var(--color-ink);
+    width: 24%;
+    padding: 0.95rem 1.5rem 0.95rem 0;
+    vertical-align: top;
+  }
+  .cmp-table tbody td {
+    font-size: var(--text-16);
+    color: var(--color-slate);
+    padding: 0.95rem 1.25rem;
+    vertical-align: top;
+  }
+  .cmp-table tbody tr:hover td,
+  .cmp-table tbody tr:hover th {
+    background: var(--color-cream);
+  }
+
+  @media (max-width: 767px) {
+    .cmp-table table,
+    .cmp-table thead,
+    .cmp-table tbody,
+    .cmp-table tr,
+    .cmp-table th,
+    .cmp-table td {
+      display: block;
+      width: auto;
+    }
+    /* Once stacked, the column headers no longer sit above their columns.
+       Each cell carries its own tier label via data-tier instead. */
+    .cmp-table thead {
+      display: none;
+    }
+    .cmp-table tbody tr {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--color-line);
+    }
+    .cmp-table tbody tr:hover td,
+    .cmp-table tbody tr:hover th {
+      background: transparent;
+    }
+    .cmp-table tbody th {
+      width: auto;
+      border-bottom: none;
+      padding: 0 0 0.6rem;
+    }
+    .cmp-table tbody td {
+      border-bottom: none;
+      padding: 0 0 0.6rem;
+    }
+    .cmp-table tbody td::before {
+      content: attr(data-tier);
+      display: block;
+      margin-bottom: 0.1rem;
+      font-family: var(--font-mono);
+      font-size: var(--text-12);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+  }
+}
+
+@layer utilities {
+  .container-x {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    .container-x {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .section-y {
+    padding-block: var(--space-section);
+  }
+  .section-y-tight {
+    padding-block: var(--space-section-tight);
+  }
+  .section-y-loose {
+    padding-block: var(--space-section-loose);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Flat dot texture for open surfaces. No gradient, no glow. */
+  .bg-dot-grid {
+    background-image: radial-gradient(var(--color-ink) 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: 0.07;
+  }
+  .bg-dot-grid-light {
+    background-image: radial-gradient(#fff 1px, transparent 1px);
+    background-size: 26px 26px;
+    opacity: 0.05;
+  }
+
+  .marquee-fade {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 6%,
+      #000 94%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-marquee {
+    animation: marquee 46s linear infinite;
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-up {
+    opacity: 0;
+    animation: fade-up 0.6s var(--ease-out-soft) forwards;
+  }
+
+  /* The live dot. Two parts: a solid core, and a ring that expands and fades
+     the way a ring pulse actually propagates. */
+  @keyframes signal-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 0.65;
+    }
+    70%,
+    100% {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+  .animate-signal-pulse {
+    animation: signal-pulse 1.9s var(--ease-out-soft) infinite;
+  }
+
+  /* Logo mark: one ring propagating outward from the dot. Runs once on load
+     and on hover, never on a loop - a permanently pulsing logo is noise. */
+  @keyframes mark-ring {
+    0% {
+      transform: scale(0.35);
+      opacity: 0;
+    }
+    25% {
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  .animate-mark-ring {
+    animation: mark-ring 0.75s var(--ease-out-soft) 0.1s both;
+  }
+
+  @keyframes caret-blink {
+    0%,
+    45% {
+      opacity: 1;
+    }
+    50%,
+    95% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  .animate-caret {
+    animation: caret-blink 1.05s steps(1, end) infinite;
+  }
+
+  /* A turn arriving. Rises a little and settles - the same gesture a message
+     makes in any chat client, which is exactly the association wanted. */
+  @keyframes bubble-in {
+    from { opacity: 0; transform: translateY(6px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-bubble-in {
+    animation: bubble-in 0.28s var(--ease-out-soft) both;
+  }
+
+  @keyframes chip-in {
+    from {
+      opacity: 0;
+      transform: translateX(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  .animate-chip-in {
+    animation: chip-in 0.34s var(--ease-out-soft) both;
+  }
+
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  .animate-card-in {
+    animation: card-in 0.5s var(--ease-out-soft) both;
+  }
+
+  /* Orb internals. Two blobs on deliberately co-prime-ish periods (17s / 23s)
+     so the surface never settles into a visible loop. Long and slow: the orb
+     should feel alive at rest, not busy. */
+  @keyframes orb-a {
+    0% { transform: translate(0%, 0%) scale(1); }
+    33% { transform: translate(12%, 8%) scale(1.12); }
+    66% { transform: translate(-6%, 14%) scale(0.94); }
+    100% { transform: translate(0%, 0%) scale(1); }
+  }
+  @keyframes orb-b {
+    0% { transform: translate(0%, 0%) scale(1); }
+    40% { transform: translate(-14%, -6%) scale(1.08); }
+    75% { transform: translate(8%, -12%) scale(0.92); }
+    100% { transform: translate(0%, 0%) scale(1); }
+  }
+  .animate-orb-a { animation: orb-a 17s ease-in-out infinite; }
+  .animate-orb-b { animation: orb-b 23s ease-in-out infinite; }
+
+  /* Fine grain over the orb. Large smooth gradients band badly on 8-bit
+     panels; a little noise hides the steps. Inline SVG so there is no asset
+     request for a texture nobody should consciously notice. */
+  .bg-orb-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Handset shake while the line is ringing. */
+  @keyframes ring-shake {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(-11deg);
+    }
+    40% {
+      transform: rotate(9deg);
+    }
+    60% {
+      transform: rotate(-6deg);
+    }
+    80% {
+      transform: rotate(4deg);
+    }
+  }
+  .animate-ring-shake {
+    animation: ring-shake 0.75s var(--ease-out-soft) infinite;
+  }
+
+  /* Everything decorative stops. Content-bearing animation (the transcript)
+     is handled in JS, which checks the same query and renders lines whole. */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-signal-pulse,
+    .animate-mark-ring,
+    .animate-caret,
+    .animate-ring-shake {
+      animation: none !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
